@@ -37,8 +37,10 @@ class GameOfLife(private val width: Int = 100, private val height: Int = 100) {
         for (x1 in x - 1..x + 1) {
             for (y1 in y - 1..y + 1) {
                 if (x1 == x && y1 == y) continue
-                if (x1 !in 0 until width || y1 !in 0 until height) continue
-                if (world[x1, y1]) count++
+                // wrap around the other side
+                val x2 = (width + x1) % width
+                val y2 = (height + y1) % height
+                if (world[x2, y2]) count++
             }
         }
         return count
