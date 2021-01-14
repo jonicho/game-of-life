@@ -3,15 +3,20 @@ package de.jonicho.gameoflife
 import kotlin.random.Random
 
 class GameOfLife(private val width: Int = 100, private val height: Int = 100) {
-    private var world: Array<BooleanArray> = Array(width) { BooleanArray(height) { Random.nextBoolean() } }
+    private var world: Array<BooleanArray> =
+            Array(width) { BooleanArray(height) { Random.nextBoolean() } }
         set(value) {
-            require(value.size == width || value.all { it.size == height }) { "World must be have a width of $width and a height of $height." }
+            require(value.size == width || value.all { it.size == height }) {
+                "World must be have a width of $width and a height of $height."
+            }
             field = value
         }
 
     private var newWorld: Array<BooleanArray> = Array(width) { BooleanArray(height) }
         set(value) {
-            require(value.size == width || value.all { it.size == height }) { "World must be have a width of $width and a height of $height." }
+            require(value.size == width || value.all { it.size == height }) {
+                "World must be have a width of $width and a height of $height."
+            }
             field = value
         }
 
@@ -50,20 +55,25 @@ class GameOfLife(private val width: Int = 100, private val height: Int = 100) {
         for (x in 0 until width) {
             for (y in 0 until height) {
                 val aliveNeighbors = getAliveNeighbors(x, y)
-                newWorld[x, y] = if (world[x, y]) {
-                    when (aliveNeighbors) {
-                        0, 1 -> false // dies because of underpopulation
-                        2, 3 -> true // stays alive
-                        in 3..8 -> false // dies because of overpopulation
-                        else -> throw IllegalStateException("aliveNeighbors should be between 0 and 8 but is $aliveNeighbors")
-                    }
-                } else {
-                    when (aliveNeighbors) {
-                        3 -> true // becomes alive because of reproduction
-                        in 0..8 -> false // stays dead
-                        else -> throw IllegalStateException("aliveNeighbors should be between 0 and 8 but is $aliveNeighbors")
-                    }
-                }
+                newWorld[x, y] =
+                        if (world[x, y]) {
+                            when (aliveNeighbors) {
+                                0, 1 -> false // dies because of underpopulation
+                                2, 3 -> true // stays alive
+                                in 3..8 -> false // dies because of overpopulation
+                                else ->
+                                        throw IllegalStateException(
+                                                "aliveNeighbors should be between 0 and 8 but is $aliveNeighbors")
+                            }
+                        } else {
+                            when (aliveNeighbors) {
+                                3 -> true // becomes alive because of reproduction
+                                in 0..8 -> false // stays dead
+                                else ->
+                                        throw IllegalStateException(
+                                                "aliveNeighbors should be between 0 and 8 but is $aliveNeighbors")
+                            }
+                        }
             }
         }
         world = newWorld.also { newWorld = world }
