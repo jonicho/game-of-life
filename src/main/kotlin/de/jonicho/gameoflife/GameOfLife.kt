@@ -6,7 +6,7 @@ class GameOfLife(private val width: Int = 100, private val height: Int = 100) {
     private var world: Array<BooleanArray> =
             Array(width) { BooleanArray(height) { Random.nextBoolean() } }
         set(value) {
-            require(value.size == width || value.all { it.size == height }) {
+            require(value.size == width && value.all { it.size == height }) {
                 "World must be have a width of $width and a height of $height."
             }
             field = value
@@ -14,7 +14,7 @@ class GameOfLife(private val width: Int = 100, private val height: Int = 100) {
 
     private var newWorld: Array<BooleanArray> = Array(width) { BooleanArray(height) }
         set(value) {
-            require(value.size == width || value.all { it.size == height }) {
+            require(value.size == width && value.all { it.size == height }) {
                 "World must be have a width of $width and a height of $height."
             }
             field = value
